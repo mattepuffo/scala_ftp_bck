@@ -19,7 +19,7 @@ def getAllLog(conn: Connection): Unit = {
 }
 
 def addLog(conn: Connection): Unit = {
-  val sql = "INSERT INTO operation_log (operation, date) VALUES (?, ?)"
+  val sql = "INSERT INTO operation_log (id, operation, date) VALUES (NULL, ?, ?)"
 
   val stmt = conn.prepareStatement(sql)
   stmt.setString(1, "prova")

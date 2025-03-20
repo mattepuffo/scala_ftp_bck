@@ -8,6 +8,6 @@ lazy val root = (project in file("."))
   )
 
 libraryDependencies ++= Seq(
-  "com.h2database" % "h2" % "2.3.232",
-  "com.lihaoyi" %% "fansi" % "0.5.0"
+  "com.lihaoyi" %% "fansi" % "0.5.0",
+  "org.xerial" % "sqlite-jdbc" % "3.49.1.0"
 )

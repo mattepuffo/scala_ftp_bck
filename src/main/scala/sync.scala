@@ -19,14 +19,23 @@ def getAllSync(conn: Connection): Unit = {
 }
 
 def addSync(conn: Connection): Unit = {
-//  val sql = "INSERT INTO sync (name, directory, server, path) VALUES (?, ?, ?, ?) ON CONFLICT (name) DO UPDATE SET directory = ?, server = ?, path = ?"
-  val sql = "MERGE INTO sync (name, directory, server, path) KEY (name) VALUES (?, ?, ?, ?)"
-
+//  val sql = "MERGE INTO sync (name, directory, server, path) KEY (name) VALUES (?, ?, ?, ?)"
+  val sql =
+    """
+      INSERT INTO sync (name, directory, server, path) 
+      VALUES (?, ?, ?, ?) 
+      ON CONFLICT (name) DO UPDATE SET directory = ?, server = ?, path = ?
+    """
+    
   val stmt = conn.prepareStatement(sql)
   stmt.setString(1, "name")
-  stmt.setString(2, "dir2")
+  stmt.setString(2, "dir")
   stmt.setString(3, "server")
   stmt.setString(4, "path")
+  // UPDATE
+  stmt.setString(5, "dir2")
+  stmt.setString(6, "server2")
+  stmt.setString(7, "path2")
   stmt.executeUpdate()
   stmt.close()
 }

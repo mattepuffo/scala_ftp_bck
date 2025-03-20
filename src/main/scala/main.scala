@@ -1,6 +1,5 @@
 import fansi.Color
 
-import java.sql.Connection
 import scala.io.StdIn.readLine
 
 @main
@@ -8,18 +7,14 @@ def main(): Unit = {
   if (!checkDbExists()) {
     val conn = createConn()
     createDb(conn)
-    test(conn)
     conn.close()
   } else {
     println(Color.Green("====="))
     println(Color.Green("DATABASE ESISTENTE"))
     println(Color.Green("====="))
-
-    val conn = createConn()
-    test(conn)
   }
 
-  //  test()
+  test()
 
   //  var running = true
   //  while running do
@@ -65,10 +60,14 @@ def syncMenu(): Unit = {
       case _ => println(Color.Red("NESSUNA VOCE CORRISPONDENTE..."))
 }
 
-def test(conn: Connection): Unit = {
+def test(): Unit = {
+  zipDirectory("C:\\Personal\\Documenti", "BCK\\documenti.zip")
   //  val conn = createConn()
-  addLog(conn)
-  getAllLog(conn)
-  addSync(conn)
-  getAllSync(conn)
+  //  addLog(conn)
+  //  getAllLog(conn)
+  //  addSync(conn)
+  //  getAllSync(conn)
+  //  addServer(conn)
+  //  getAllServer(conn)
+  //  conn.close()
 }
