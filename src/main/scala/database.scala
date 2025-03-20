@@ -1,5 +1,6 @@
-import java.sql.{Connection, DriverManager, ResultSet, Timestamp}
-import java.util.Calendar
+import fansi.Color
+
+import java.sql.{Connection, DriverManager}
 
 def createConn(): Connection = {
   Class.forName("org.h2.Driver")
@@ -7,41 +8,24 @@ def createConn(): Connection = {
 }
 
 def createDb(conn: Connection): Unit = {
+  println(Color.Green("====="))
+  println(Color.Green("CREAZIONE TABELLE"))
+
   val sql =
     """
        CREATE SCHEMA IF NOT EXISTS my_db;
        SET SCHEMA my_db;
        CREATE TABLE IF NOT EXISTS operation_log (id INT AUTO_INCREMENT PRIMARY KEY, operation VARCHAR(255), date TIMESTAMP);
-   """
+       CREATE TABLE IF NOT EXISTS sync (name VARCHAR(255), directory VARCHAR(255), server VARCHAR(255), path VARCHAR(255));
+       CREATE UNIQUE INDEX name_uq ON sync (name);
+       CREATE TABLE IF NOT EXISTS ftp (name VARCHAR, host VARCHAR, username VARCHAR, password VARCHAR);
+       CREATE UNIQUE INDEX ftp_uq ON ftp (name);
+    """
 
   val stmt = conn.createStatement()
   stmt.execute(sql)
   stmt.close()
-}
 
-def insertData(conn: Connection): Unit = {
-  val sql = "INSERT INTO operation_log (operation, date) VALUES (?, ?)"
-
-  val stmt = conn.prepareStatement(sql)
-  stmt.setString(1, "prova")
-  stmt.setTimestamp(2, new Timestamp(Calendar.getInstance().getTime.getTime))
-  stmt.executeUpdate()
-  stmt.close()
-}
-
-def selectData(conn: Connection): Unit = {
-  val sql = "SELECT * FROM operation_log"
-
-  val stmt = conn.prepareStatement(sql)
-  val res: ResultSet = stmt.executeQuery()
-  while ( {
-    res.next
-  }) {
-    val id = res.getInt("id")
-    val operation = res.getString("operation")
-    val dtm = res.getTimestamp("date")
-    println(id + " " + operation + " " + dtm.toString)
-  }
-
-  stmt.close()
+  println(Color.Green("TABELLE CREATE"))
+  println(Color.Green("====="))
 }

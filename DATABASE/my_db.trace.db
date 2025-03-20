@@ -1,3 +1,0 @@
-2025-03-18 14:49:06.871149+01:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "OPERATION_LOG" not found; SQL statement:
-INSERT INTO operation_log (operation, date) VALUES (?, ?) [42102-232]
