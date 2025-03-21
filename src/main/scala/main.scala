@@ -61,7 +61,16 @@ def syncMenu(): Unit = {
 }
 
 def test(): Unit = {
-  zipDirectory("C:\\Personal\\Documenti", "BCK\\documenti.zip")
+  upload(
+    "ftp.mattepuffo.com",
+    "1814342@aruba.it",
+    "Fermat852021",
+    "/www.mattepuffo.com/BCK",
+    "BCK\\documenti.zip",
+    "Documenti.zip"
+  )
+
+  //  zipDirectory("C:\\Personal\\Documenti", "BCK\\documenti.zip")
   //  val conn = createConn()
   //  addLog(conn)
   //  getAllLog(conn)

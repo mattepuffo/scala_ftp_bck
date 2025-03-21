@@ -10,8 +10,6 @@ def zipDirectory(sourceDirPath: String, zipFilePath: String): Unit = {
     Files.walk(sourcePath).forEach { path =>
       val file = path.toFile
       if (!file.isDirectory) {
-//        val entryName = sourcePath.relativize(path).toString.replace("\\", "/") // Standardizza i separatori
-
         val relativePath = sourcePath.relativize(path).toString
         val entryName = relativePath.replace(File.separatorChar, '/')
         val zipEntry = new ZipEntry(entryName)
