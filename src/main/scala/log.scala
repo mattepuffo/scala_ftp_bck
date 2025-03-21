@@ -1,3 +1,5 @@
+import de.vandermeer.asciitable.AsciiTable
+import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment
 import java.sql.{Connection, ResultSet, Timestamp}
 import java.util.Calendar
 
@@ -6,14 +8,27 @@ def getAllLog(conn: Connection): Unit = {
 
   val stmt = conn.prepareStatement(sql)
   val res: ResultSet = stmt.executeQuery()
+
+  val at = new AsciiTable()
+  at.addRule()
+  val row = at.addRow("ID", "OPERAZIONE", "DATA")
+  row.setTextAlignment(TextAlignment.CENTER)
+  at.addRule()
+
   while ( {
     res.next
   }) {
     val id = res.getInt("id")
     val operation = res.getString("operation")
     val dtm = res.getTimestamp("date")
-    println(id + " " + operation + " " + dtm.toString)
+
+    at.addRow(id, operation, dtm.toString)
+    at.addRule()
   }
+
+  val table = at.render()
+  println(table)
+  println("=====")
 
   stmt.close()
 }
