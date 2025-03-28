@@ -6,4 +6,3 @@ Internamente uso SQLte per la configurazione e il salvataggio di log in cui memo
 
 ## TODO
 - aggiungere tipo bck
-- nome del file con la data

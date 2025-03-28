@@ -1,3 +1,6 @@
+import de.vandermeer.asciitable.AsciiTable
+import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment
+
 import java.sql.{Connection, ResultSet}
 
 def getAllSync(conn: Connection): Unit = {
@@ -5,6 +8,13 @@ def getAllSync(conn: Connection): Unit = {
 
   val stmt = conn.prepareStatement(sql)
   val res: ResultSet = stmt.executeQuery()
+
+  val at = new AsciiTable()
+  at.addRule()
+  val row = at.addRow("NOME", "DIRECTORY", "SERVER", "PATH", "TYPE")
+  row.setTextAlignment(TextAlignment.CENTER)
+  at.addRule()
+
   while ( {
     res.next
   }) {
@@ -12,30 +22,38 @@ def getAllSync(conn: Connection): Unit = {
     val directory = res.getString("directory")
     val server = res.getString("server")
     val path = res.getString("path")
-    println(name + " " + directory + " " + path)
+    val typeSync = res.getString("type")
+
+    at.addRow(name, directory, server, path, typeSync)
+    at.addRule()
   }
+
+  val table = at.render()
+  println(table)
 
   stmt.close()
 }
 
-def addSync(conn: Connection): Unit = {
-//  val sql = "MERGE INTO sync (name, directory, server, path) KEY (name) VALUES (?, ?, ?, ?)"
+def addSync(conn: Connection, name: String, dir: String, server: String, path: String, typeSync: String): Unit = {
   val sql =
     """
-      INSERT INTO sync (name, directory, server, path) 
-      VALUES (?, ?, ?, ?) 
-      ON CONFLICT (name) DO UPDATE SET directory = ?, server = ?, path = ?
+      INSERT INTO sync (name, directory, server, path, type)
+      VALUES (?, ?, ?, ?, ?)
+      ON CONFLICT (name) DO UPDATE SET directory = ?, server = ?, path = ?, type = ?
     """
-    
+
   val stmt = conn.prepareStatement(sql)
-  stmt.setString(1, "name")
-  stmt.setString(2, "dir")
-  stmt.setString(3, "server")
-  stmt.setString(4, "path")
+  stmt.setString(1, name)
+  stmt.setString(2, dir)
+  stmt.setString(3, server)
+  stmt.setString(4, path)
+  stmt.setString(5, typeSync)
   // UPDATE
-  stmt.setString(5, "dir2")
-  stmt.setString(6, "server2")
-  stmt.setString(7, "path2")
+  stmt.setString(6, dir)
+  stmt.setString(7, server)
+  stmt.setString(8, path)
+  stmt.setString(9, typeSync)
+
   stmt.executeUpdate()
   stmt.close()
 }

@@ -28,7 +28,6 @@ def getAllLog(conn: Connection): Unit = {
 
   val table = at.render()
   println(table)
-  println("=====")
 
   stmt.close()
 }

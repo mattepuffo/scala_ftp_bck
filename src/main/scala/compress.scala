@@ -1,10 +1,16 @@
-import java.io.{File, FileInputStream, FileOutputStream, BufferedInputStream}
+import java.io.{BufferedInputStream, File, FileInputStream, FileOutputStream}
 import java.nio.file.{Files, Paths}
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.zip.{ZipEntry, ZipOutputStream}
 
 def zipDirectory(sourceDirPath: String, zipFilePath: String): Unit = {
+  val currentDateTime: LocalDateTime = LocalDateTime.now()
+  val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy_MM_dd")
+  val formattedDate: String = currentDateTime.format(formatter)
+
   val sourcePath = Paths.get(sourceDirPath)
-  val zipFile = new File(zipFilePath)
+  val zipFile = new File(zipFilePath + "_" + formattedDate + ".zip")
 
   new ZipOutputStream(new FileOutputStream(zipFile)).use { zipOut =>
     Files.walk(sourcePath).forEach { path =>

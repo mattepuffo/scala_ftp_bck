@@ -11,5 +11,6 @@ libraryDependencies ++= Seq(
   "com.lihaoyi" %% "fansi" % "0.5.0",
   "org.xerial" % "sqlite-jdbc" % "3.49.1.0",
   "commons-net" % "commons-net" % "3.11.1",
-  "de.vandermeer" % "asciitable" % "0.3.2"
+  "de.vandermeer" % "asciitable" % "0.3.2",
+  "org.slf4j" % "slf4j-simple" % "2.0.17"
 )
