@@ -15,23 +15,23 @@ def main(): Unit = {
     println(Color.Green("====="))
   }
 
-  //  test()
+  test(conn)
 
-  var running = true
-  while running do
-    createMenu()
-    readLine() match
-      case "1" => println("Ciao! Come stai?")
-      case "2" => syncMenu(conn)
-      case "3" => println(s"Data e ora attuale: ${java.time.LocalDateTime.now}")
-      case "4" => println(s"Data e ora attuale: ${java.time.LocalDateTime.now}")
-      case "5" => println(s"Data e ora attuale: ${java.time.LocalDateTime.now}")
-      case "6" =>
-        println(Color.Yellow("USCITA IN CORSO..."))
-        running = false
-      case _ => println(Color.Red("NESSUNA VOCE CORRISPONDENTE..."))
-
-  println(Color.Yellow("PROGRAMMA TERMINATO"))
+  //  var running = true
+  //  while running do
+  //    createMenu()
+  //    readLine() match
+  //      case "1" => println("Ciao! Come stai?")
+  //      case "2" => syncMenu(conn)
+  //      case "3" => println(s"Data e ora attuale: ${java.time.LocalDateTime.now}")
+  //      case "4" => println(s"Data e ora attuale: ${java.time.LocalDateTime.now}")
+  //      case "5" => println(s"Data e ora attuale: ${java.time.LocalDateTime.now}")
+  //      case "6" =>
+  //        println(Color.Yellow("USCITA IN CORSO..."))
+  //        running = false
+  //      case _ => println(Color.Red("NESSUNA VOCE CORRISPONDENTE..."))
+  //
+  //  println(Color.Yellow("PROGRAMMA TERMINATO"))
 }
 
 def createMenu(): Unit = {
@@ -56,7 +56,7 @@ def syncMenu(conn: Connection): Unit = {
     readLine() match
       case "1" => getAllSync(conn)
       case "2" => {
-        println(Color.Blue(Str.implicitApply("SCRIVI DUE VALORI DEL SYNC")))
+        println(Color.Blue("SCRIVI DUE VALORI DEL SYNC"))
         println(Color.Blue("NOME, PATH DA COMPRIMERE E SERVER SEPARATI DAL CARATTERE |"))
         println(Color.Yellow("NOTA: CONVIENE PRIMA CREARE IL SERVER E ANNOTARSI IL NOME"))
         println(Color.Yellow("AD ESEMPIO: nome1 | /home/fermat | server1 | cartella"))
@@ -64,15 +64,23 @@ def syncMenu(conn: Connection): Unit = {
         val input = readLine()
         val options = input.split("\\|")
 
-        addSync(conn, options(0), options(1), options(2), options(3), options(4))
+        addSync(conn, options(0).trim, options(1).trim, options(2).trim, options(3).trim, options(4).trim)
       }
-      case "3" => println("Messaggio segreto: Scala è fantastico! 🚀")
+      case "3" => {
+        println(Color.Blue("CANCELLA UN SYNC"))
+        println(Color.Blue("SCRIVI IL NOME DEL SYNC CHE VUOI CANCELLARE"))
+        println(Color.Yellow("AD ESEMPIO: nome1"))
+
+        val input = readLine()
+
+        delSync(conn, input.trim)
+      }
       case "4" => subRunning = false
       case _ => println(Color.Red("NESSUNA VOCE CORRISPONDENTE..."))
 }
 
-def test(): Unit = {
-  //    zipDirectory("C:\\Personal\\Documenti", "BCK\\documenti")
-
-
+def test(conn: Connection): Unit = {
+  val res = getSyncByName(conn, "name")
+  println(res(0))
+  println(res(1))
 }
